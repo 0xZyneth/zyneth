@@ -1,0 +1,17 @@
+{
+  "name": "@zyneth/waitlist-api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --pretty --noEmit",
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@zyneth/database": "workspace:*"
+  },
+  "devDependencies": {
+    "@zyneth/typescript-config": "workspace:*"
+  }
+}

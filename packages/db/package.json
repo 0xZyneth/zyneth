@@ -1,0 +1,25 @@
+{
+  "name": "@zyneth/database",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "check": "tsc --pretty --noEmit",
+    "db:generate": "drizzle-kit generate --config ./drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config ./drizzle.config.ts"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.41.0",
+    "postgres": "3.4.7"
+  },
+  "devDependencies": {
+    "@zyneth/typescript-config": "workspace:*",
+    "drizzle-kit": "0.31.8"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts"
+  }
+}

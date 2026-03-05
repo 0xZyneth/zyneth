@@ -1,0 +1,25 @@
+{
+  "name": "@zyneth/ponder",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --pretty --noEmit",
+    "dev": "ponder dev",
+    "start": "ponder start"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.41.0",
+    "ponder": "0.15.17",
+    "viem": "2.43.3"
+  },
+  "devDependencies": {
+    "@zyneth/typescript-config": "workspace:*"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./config": "./ponder.config.ts",
+    "./schema": "./ponder.schema.ts",
+    "./abis": "./abis/index.ts"
+  }
+}

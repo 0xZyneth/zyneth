@@ -1,0 +1,91 @@
+name: Zyneth - verify
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    name: Lint + Format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: biomejs/setup-biome@v2
+        with:
+          version: 2.3.10
+      - run: biome ci .
+
+  changes:
+    name: Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      packages: ${{ steps.filter.outputs.packages }}
+      apis: ${{ steps.filter.outputs.apis }}
+      apps: ${{ steps.filter.outputs.apps }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            packages:
+              - 'packages/**'
+              - 'config/**'
+              - 'package.json'
+            apis:
+              - 'apis/**'
+              - 'config/**'
+              - 'packages/**'
+              - 'package.json'
+            apps:
+              - 'apps/**'
+              - 'config/**'
+              - 'packages/**'
+              - 'package.json'
+
+  types-packages:
+    name: Types Packages
+    needs: changes
+    if: ${{ needs.changes.outputs.packages == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - run: bun check:packages
+
+  types-apis:
+    name: Types APIs
+    needs: changes
+    if: ${{ needs.changes.outputs.apis == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - run: bun check:apis
+
+  types-apps:
+    name: Types Apps
+    needs: changes
+    if: ${{ needs.changes.outputs.apps == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - run: bun check:apps
+
+  build:
+    name: Build
+    needs: [changes, lint]
+    if: ${{ needs.changes.outputs.apps == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install
+      - run: bun run build
