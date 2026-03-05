@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "turbo run build --filter=@zyneth/web",
+  "framework": null,
   "installCommand": "bun install",
-  "outputDirectory": "apps/web/.next",
-  "framework": "nextjs"
+  "buildCommand": "turbo run build --filter=@zyneth/web",
+  "outputDirectory": "apps/web/.next"
 }
