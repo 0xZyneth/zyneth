@@ -12,7 +12,7 @@ import { vaultHolder } from './schema'
   }
 
 new Elysia()
-  .use(cors({ origin: CORS_ORIGIN }))
+  .use(cors({ origin: CORS_ORIGIN === '*' ? true : CORS_ORIGIN }))
   .get('/health', () => ({ status: 'ok' }))
   .get(
     '/holders',
