@@ -18,4 +18,10 @@ const setDatabaseSchema = <T extends { [name: string]: unknown }>(
 
 setDatabaseSchema(schema, PONDER_SCHEMA_ID)
 
-export const db = drizzle(PONDER_DATABASE_URL, { schema })
+export const db = drizzle({
+  connection: {
+    connectionString: PONDER_DATABASE_URL,
+    connectionTimeoutMillis: 5000,
+  },
+  schema,
+})
